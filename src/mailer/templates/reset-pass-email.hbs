@@ -1,0 +1,22 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task - Reset password</title>
+</head>
+<body>
+  <h1>Reset your password</h1>
+  <p>
+    Hi, {{ userName }}, Seems like
+    you forgot your password. To
+    reset it, just click the reset link down below.
+  </p>
+  <div>
+    <a href='{{ resetPassLink }}' target='_blank'>
+      <strong>Reset my password</strong>
+    </a>
+  </div>
+  <p>If you haven't requested the password reset, kindly ignore this email.</p>
+</body>
+</html>

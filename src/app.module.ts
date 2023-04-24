@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { PrismaModule } from './prisma/prisma.module';
 import { PrismaService } from './prisma/prisma.service';
+import { MailerModule } from './mailer/mailer.module';
 
 @Module({
   imports: [
@@ -10,6 +11,7 @@ import { PrismaService } from './prisma/prisma.service';
       isGlobal: true,
     }),
     PrismaModule,
+    MailerModule,
   ],
   controllers: [AppController],
   providers: [PrismaService],
