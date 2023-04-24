@@ -1,0 +1,4 @@
+{
+  "{src,test}/*": "npm run lint",
+  "prisma/*": "npm run prisma:format"
+}
