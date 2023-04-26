@@ -6,13 +6,14 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as helpers from '../helpers';
+import { ResponseUser } from '../types';
 
 describe('UsersService', () => {
   let service: UsersService;
   const prismaMock = mockDeep<PrismaClient>();
   let prisma: DeepMockProxy<PrismaClient>;
 
-  const user: Omit<User, 'password'> = {
+  const user: ResponseUser = {
     id: 1,
     email: 'email',
     firstName: 'john',
@@ -24,6 +25,8 @@ describe('UsersService', () => {
   const userInDB: User = {
     ...user,
     password: 'password',
+    refreshToken: 'token',
+    resetCode: null,
   };
 
   beforeEach(async () => {
@@ -81,6 +84,22 @@ describe('UsersService', () => {
       } catch (error) {
         expect(error).toBeInstanceOf(Error);
       }
+    });
+  });
+
+  describe('findOneByProps', () => {
+    it('should return user', async () => {
+      prisma.user.findFirst.mockResolvedValueOnce(userInDB);
+      expect(await service.findOneByProps({ email: userInDB.email })).toEqual(
+        userInDB,
+      );
+    });
+
+    it('should return null if user not found', async () => {
+      prisma.user.findUnique.mockResolvedValueOnce(null);
+      expect(await service.findOneByProps({ email: userInDB.email })).toEqual(
+        null,
+      );
     });
   });
 

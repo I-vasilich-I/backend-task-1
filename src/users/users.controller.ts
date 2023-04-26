@@ -18,16 +18,11 @@ import {
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { EXCEPTION_MESSAGES, MAX_IMAGE_SIZE_BITES } from '../constants';
-import { handleGenerateError, handleUpdateError } from '../error-handlers';
-import { exclude, imageFileFilter } from '../helpers';
+import { handleGenerateError, handleUpdateError } from '../core/error-handlers';
+import { getResponseUser, imageFileFilter } from '../helpers';
 import { GeneratePdfDto } from './dto/generate-pdf.dto';
-import { User } from '@prisma/client';
 import { memoryStorage } from 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
-
-function getResponseUser(user: User) {
-  return exclude(user, ['password']);
-}
 
 const storage = memoryStorage();
 

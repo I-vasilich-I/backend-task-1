@@ -4,7 +4,7 @@ import { UsersService } from './users.service';
 import { Prisma, User } from '@prisma/client';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { PrismaErrorCodes } from '../types';
+import { PrismaErrorCodes, ResponseUser } from '../types';
 import { GeneratePdfDto } from './dto/generate-pdf.dto';
 
 jest.mock('./users.service.ts');
@@ -12,7 +12,7 @@ jest.mock('./users.service.ts');
 describe('UsersController', () => {
   let controller: UsersController;
   let service: UsersService;
-  const user: Omit<User, 'password'> = {
+  const user: ResponseUser = {
     id: 1,
     email: 'email',
     firstName: 'john',
@@ -24,6 +24,8 @@ describe('UsersController', () => {
   const userInDB: User = {
     ...user,
     password: 'password',
+    refreshToken: 'token',
+    resetCode: null,
   };
 
   const notUniqueError = new Prisma.PrismaClientKnownRequestError('error', {

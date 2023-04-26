@@ -6,4 +6,12 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsString()
   @IsOptional()
   image?: string;
+
+  @IsString()
+  @IsOptional()
+  refreshToken?: string | null;
+
+  @IsString()
+  @IsOptional()
+  resetCode?: string | null;
 }

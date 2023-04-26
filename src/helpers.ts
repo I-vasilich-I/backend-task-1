@@ -1,10 +1,11 @@
 import { BadRequestException } from '@nestjs/common';
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
-import { EXCEPTION_MESSAGES } from './constants';
+import { User } from '@prisma/client';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
 import { compile } from 'handlebars';
 import puppeteer from 'puppeteer';
+import { EXCEPTION_MESSAGES } from './constants';
 
 const exclude = <T, Key extends keyof T>(
   entity: T,
@@ -63,4 +64,13 @@ const generatePdfData = async (
   return pdfBuffer;
 };
 
-export { exclude, imageFileFilter, convertImageToString, generatePdfData };
+const getResponseUser = (user: User) =>
+  exclude(user, ['password', 'refreshToken', 'resetCode']);
+
+export {
+  exclude,
+  imageFileFilter,
+  convertImageToString,
+  generatePdfData,
+  getResponseUser,
+};

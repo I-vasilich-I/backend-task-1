@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { convertImageToString, generatePdfData } from '../helpers';
-import { Prisma } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import { TEMPLATES } from '../constants';
 
 @Injectable()
@@ -23,6 +23,14 @@ export class UsersService {
   async findOne(id: number) {
     const user = await this.prisma.user.findUniqueOrThrow({ where: { id } });
     return user;
+  }
+
+  async findOneByProps(props: Partial<User>) {
+    const user = await this.prisma.user.findFirst({
+      where: { ...props },
+    });
+
+    return user ?? null;
   }
 
   async update(
