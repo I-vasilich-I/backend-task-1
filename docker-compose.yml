@@ -1,0 +1,42 @@
+services:
+  node: 
+    container_name: backend_nest
+    build: 
+      context: .
+      dockerfile: ./Dockerfile
+    depends_on:
+      - db
+    restart: unless-stopped
+    networks:
+      - backend_network
+    ports:
+      - ${PORT}:${PORT}
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+  db: 
+    container_name: backend_db
+    build: 
+      context: ./db
+      dockerfile: ./Dockerfile
+    command: -p ${DB_DEV_PORT}
+    restart: unless-stopped
+    networks:
+      - backend_network
+    ports:
+      - ${DB_DEV_PORT}:${DB_DEV_PORT}
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - db-logs:/var/log/postgresql/
+
+networks:
+  backend_network:
+
+volumes:
+  db-data:
+  db-logs:
